@@ -1,16 +1,17 @@
-# Home Service Recommendation System
+# HandyHub - AI Based Home Service Recommendation System
 
-A Flask-based web application that connects users with service workers.
+HandyHub is a Flask-based web application that connects users with skilled service workers through an AI-powered recommendation system.
 
 ## Features
 
-- User Registration/Login
-- Worker Registration/Login
-- Job Posting
-- Worker Search
-- Chat System
-- Review System
-- Machine Learning Recommendation
+- User Registration and Login
+- Worker Registration and Login
+- Service Search
+- AI-Based Worker Recommendations
+- Job Booking Management
+- Real-Time Chat System
+- Review and Rating System
+- User and Worker Dashboards
 
 ## Technologies Used
 
@@ -18,16 +19,21 @@ A Flask-based web application that connects users with service workers.
 - Flask
 - SQLAlchemy
 - SQLite
-- HTML/CSS
+- HTML
+- CSS
 - Machine Learning
 
 ## Installation
 
+```bash
 git clone <repo-link>
+cd home-service-recommendation-system
 
 pip install -r requirements.txt
 
 python app.py
+```
+
 ## Screenshots
 
 ### Home Page
@@ -47,3 +53,11 @@ python app.py
 
 ### Chat System
 ![Chat System](screenshots/chats.png)
+
+## Future Enhancements
+
+- GPS-based worker recommendations
+- Online payment integration
+- Real-time notifications
+- Mobile application support
+- Advanced AI recommendation engine

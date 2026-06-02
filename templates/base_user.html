@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HandyHub | User</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:#f4f6f9;
+}
+
+/* Sidebar */
+.sidebar{
+    width:230px;
+    height:100vh;
+    position:fixed;
+    background:linear-gradient(180deg,#0d6efd,#00c6ff);
+    padding:20px;
+    color:white;
+}
+
+.sidebar h3{
+    font-weight:600;
+    margin-bottom:30px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:10px 12px;
+    margin:8px 0;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.sidebar a:hover{
+    background:rgba(255,255,255,0.2);
+}
+
+/* Main content */
+.main-content{
+    margin-left:230px;
+    padding:30px;
+    min-height:100vh;
+}
+
+/* Flash messages */
+.alert{
+    border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h3>HandyHub</h3>
+
+    <a href="/user_dashboard">🏠 Dashboard</a>
+    <a href="/search">🔍 Search Workers</a>
+     <a href="/edit_user">✏️ Edit Profile</a>
+     <a href="/chat_list">💬 Chats</a>
+    <a href="/logout">🚪 Logout</a>
+
+</div>
+
+<!-- MAIN -->
+<div class="main-content">
+
+    <!-- 🔔 FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+<!-- Bootstrap JS (IMPORTANT for alerts) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

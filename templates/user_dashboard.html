@@ -1,0 +1,164 @@
+{% extends "base_user.html" %}
+
+{% block content %}
+
+<style>
+
+/* HEADER */
+.header{
+    background:linear-gradient(90deg,#1d74f5,#19b6d2);
+    color:white;
+    padding:20px;
+    border-radius:15px;
+}
+
+/* CARD */
+.card-custom{
+    border-radius:15px;
+    padding:20px;
+    background:white;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.card-custom:hover{
+    transform:translateY(-5px);
+}
+
+/* QUICK BUTTONS */
+.quick-btn{
+    border-radius:25px;
+    padding:10px 15px;
+    font-weight:600;
+    margin:5px;
+}
+
+/* STATUS BADGES */
+.badge-status{
+    padding:6px 12px;
+    border-radius:20px;
+}
+
+.pending{background:#ffc107;color:black;}
+.hired{background:#28a745;color:white;}
+.completed{background:#17a2b8;color:white;}
+
+/* SECTION TITLE */
+.section-title{
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+</style>
+
+<!-- HEADER -->
+<div class="header d-flex justify-content-between align-items-center mb-4">
+    <h4>HandyHub Dashboard</h4>
+</div>
+
+<!-- WELCOME -->
+<div class="mb-4">
+    <h2>Welcome, {{ user.name }} 👋</h2>
+    <p class="text-muted">Manage your bookings, chats and services easily.</p>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="card-custom mb-4">
+    <h5 class="section-title">Quick Actions</h5>
+
+    <a href="/search" class="btn btn-success quick-btn">🔍 Search Workers</a>
+    <a href="#requested" class="btn btn-warning quick-btn">📩 Requests</a>
+    <a href="#active" class="btn btn-primary quick-btn">⚡ Active Jobs</a>
+    <a href="#completed" class="btn btn-info quick-btn">✅ Completed</a>
+</div>
+
+<!-- PROFILE -->
+<div class="card-custom mb-4">
+    <h5 class="section-title">Your Profile</h5>
+    <p><b>Email:</b> {{ user.email }}</p>
+    <a href="/edit_user" class="btn btn-outline-primary btn-sm">Edit Profile</a>
+</div>
+
+<!-- REQUESTED -->
+<div id="requested" class="mb-4">
+    <h5 class="section-title">Requested Workers</h5>
+
+    <div class="row">
+    {% for job in requested_jobs %}
+        <div class="col-md-4">
+            <div class="card-custom mb-3">
+
+                <h6>{{ job.worker_name }}</h6>
+                <p><b>Service:</b> {{ job.service }}</p>
+
+                <span class="badge-status pending">Pending</span>
+
+                <br><br>
+
+                <a href="/chat/{{ job.worker_id }}" class="btn btn-outline-primary btn-sm">
+                    Chat
+                </a>
+
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+<!-- ACTIVE -->
+<div id="active" class="mb-4">
+    <h5 class="section-title">Active Bookings</h5>
+
+    <div class="row">
+    {% for job in active_jobs %}
+        <div class="col-md-4">
+            <div class="card-custom mb-3">
+
+                <h6>{{ job.worker_name }}</h6>
+                <p><b>Service:</b> {{ job.service }}</p>
+
+                <span class="badge-status hired">Active</span>
+
+                <br><br>
+
+                <a href="/booking/{{ job.job_id }}" class="btn btn-primary btn-sm">
+                    View Details
+                </a>
+
+                <a href="/chat/{{ job.worker_id }}" class="btn btn-outline-primary btn-sm">
+                    Chat
+                </a>
+
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+<!-- COMPLETED -->
+<div id="completed" class="mb-4">
+    <h5 class="section-title">Completed Jobs</h5>
+
+    <div class="row">
+    {% for job in completed_jobs %}
+        <div class="col-md-4">
+            <div class="card-custom mb-3">
+
+                <h6>{{ job.worker_name }}</h6>
+                <p><b>Service:</b> {{ job.service }}</p>
+
+                <span class="badge-status completed">Completed</span>
+
+                <br><br>
+
+                <a href="/worker_profile/{{ job.worker_id }}" class="btn btn-outline-dark btn-sm">
+                    View Profile
+                </a>
+
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

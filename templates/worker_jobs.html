@@ -1,0 +1,128 @@
+{% extends "base_worker.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Manage Your Jobs</h2>
+
+<!-- 🔵 REQUESTED JOBS -->
+<h4 class="mb-3">📩 Requested Jobs</h4>
+
+{% if pending_jobs %}
+
+<div class="row">
+{% for item in pending_jobs %}
+
+<div class="col-md-4">
+<div class="card p-3 shadow-sm mb-3" style="border-radius:15px;">
+
+<h5>{{ item.user_name }}</h5>
+
+<span class="badge bg-warning text-dark">Pending</span>
+
+<div class="d-grid gap-2 mt-2">
+
+<a href="/accept_job/{{ item.job.id }}" class="btn btn-success btn-sm">
+Accept
+</a>
+
+<a href="/reject_job/{{ item.job.id }}" class="btn btn-danger btn-sm">
+Reject
+</a>
+
+<a href="/worker_chat/{{ item.job.user_id }}" class="btn btn-outline-primary btn-sm">
+Chat
+</a>
+
+</div>
+
+</div>
+</div>
+
+{% endfor %}
+</div>
+
+{% else %}
+<p class="text-muted">No requested jobs.</p>
+{% endif %}
+
+
+
+<!-- 🟢 ACTIVE JOBS -->
+<h4 class="mt-4 mb-3">⚡ Active Jobs</h4>
+
+{% if active_jobs %}
+
+<div class="row">
+{% for item in active_jobs %}
+
+<div class="col-md-4">
+<div class="card p-3 shadow-sm mb-3" style="border-radius:15px;">
+
+<h5>{{ item.user_name }}</h5>
+
+<span class="badge bg-success">{{ item.job.status }}</span>
+
+<div class="d-grid gap-2 mt-2">
+
+<a href="/worker_chat/{{ item.job.user_id }}" class="btn btn-primary btn-sm">
+Chat
+</a>
+
+
+</div>
+
+</div>
+</div>
+
+{% endfor %}
+</div>
+
+{% else %}
+<p class="text-muted">No active jobs.</p>
+{% endif %}
+
+
+
+<!-- 🟣 COMPLETED JOBS -->
+<h4 class="mt-4 mb-3">✅ Completed Jobs</h4>
+
+{% if completed_jobs %}
+
+<div class="row">
+{% for item in completed_jobs %}
+
+<div class="col-md-4">
+<div class="card p-3 shadow-sm mb-3" style="border-radius:15px;">
+
+<h5>{{ item.user_name }}</h5>
+
+{% if item.job.status == "Completed" %}
+
+<span class="badge bg-warning text-dark">Not Reviewed</span>
+
+<p class="text-muted mt-2">Waiting for user review</p>
+
+<a href="/worker_chat/{{ item.job.user_id }}"
+class="btn btn-outline-primary btn-sm w-100">
+Chat
+</a>
+
+{% elif item.job.status == "Reviewed" %}
+
+<span class="badge bg-secondary">Reviewed</span>
+
+<p class="text-muted mt-2">Job Finished</p>
+
+{% endif %}
+
+</div>
+</div>
+
+{% endfor %}
+</div>
+
+{% else %}
+<p class="text-muted">No completed jobs.</p>
+{% endif %}
+
+{% endblock %}

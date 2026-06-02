@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HandyHub - AI Home Services</title>
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Lottie Animation -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Gradient Background */
+        .hero {
+            background: linear-gradient(-45deg, #0d6efd, #00c6ff, #4facfe, #00f2fe);
+            background-size: 400% 400%;
+            animation: gradientMove 10s ease infinite;
+            color: white;
+            padding: 100px 20px;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .btn-custom {
+            padding: 12px 25px;
+            margin: 10px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            max-width: 600px;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            padding: 80px 20px;
+            background-color: #f5f7fa;
+        }
+
+        .card {
+            border-radius: 20px;
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        /* 🔥 clickable cards */
+        .service-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        footer {
+            background-color: #0d6efd;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        @media(max-width:768px){
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Hero Section -->
+<div class="hero">
+    <div class="container hero-content">
+
+        <div class="hero-text">
+            <h1 class="display-4 fw-bold">HandyHub</h1>
+            <p class="lead">AI Based Home Service Recommendation System</p>
+
+            <a href="/register_user">
+                <button class="btn btn-light btn-custom">Register as User</button>
+            </a>
+
+            <a href="/login">
+                <button class="btn btn-warning btn-custom">Login</button>
+            </a>
+
+            <a href="/register_worker">
+                <button class="btn btn-dark btn-custom">Register as Worker</button>
+            </a>
+
+            <a href="/search">
+                <button class="btn btn-success btn-custom">Search Services</button>
+            </a>
+        </div>
+
+        <!-- AI Animation -->
+        <div>
+            <lottie-player 
+                src="https://assets2.lottiefiles.com/packages/lf20_zrqthn6o.json"
+                background="transparent"
+                speed="1"
+                style="width: 350px; height: 350px;"
+                loop
+                autoplay>
+            </lottie-player>
+        </div>
+
+    </div>
+</div>
+
+<!-- Services Section -->
+<div class="section text-center">
+    <h2 class="mb-5 fw-bold">Our Popular Services</h2>
+
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- Electrician -->
+            <div class="col-md-4">
+                <a href="/service/electrician" class="service-link">
+                    <div class="card p-4 shadow">
+                        <h4>🔧 Electrician</h4>
+                        <p>Professional electrical repair and installation services.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Plumber -->
+            <div class="col-md-4">
+                <a href="/service/plumber" class="service-link">
+                    <div class="card p-4 shadow">
+                        <h4>🚿 Plumber</h4>
+                        <p>Expert plumbing solutions for homes and offices.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Cleaning -->
+            <div class="col-md-4">
+                <a href="/service/cleaning" class="service-link">
+                    <div class="card p-4 shadow">
+                        <h4>🧹 Cleaning</h4>
+                        <p>Trusted home and deep cleaning services.</p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    © 2026 HandyHub | AI Powered Service Recommendation
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+{% extends "base_user.html" %}
+
+{% block content %}
+
+<style>
+
+/* Header */
+.header{
+    background:linear-gradient(to right,#0d6efd,#00c6ff);
+    padding:40px;
+    color:white;
+    text-align:center;
+    border-radius:15px;
+}
+
+/* Search Box */
+.search-box{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    margin-top:-30px;
+}
+
+/* Worker Cards */
+.worker-card{
+    border-radius:15px;
+    padding:20px;
+    background:white;
+    transition:0.3s;
+}
+
+.worker-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* Buttons */
+.btn-hire, .btn-chat{
+    border-radius:25px;
+    padding:6px 18px;
+}
+
+/* Rating badge */
+.rating-badge{
+    background:gold;
+    padding:6px 12px;
+    border-radius:15px;
+    font-weight:600;
+}
+
+/* Name */
+.worker-name a{
+    text-decoration:none;
+    color:black;
+    font-weight:600;
+}
+
+.worker-name a:hover{
+    color:#0d6efd;
+}
+
+/* Distance */
+.distance{
+    font-size:14px;
+    color:#555;
+}
+
+/* Badge styling */
+.badge{
+    font-size:12px;
+    margin-right:5px;
+    padding:6px 10px;
+    border-radius:12px;
+}
+
+</style>
+
+<!-- Header -->
+<div class="header">
+    <h2>Find Skilled Workers</h2>
+    <p>AI powered service recommendation</p>
+</div>
+
+<div class="container mt-4">
+
+<!-- Search Box -->
+<div class="search-box">
+
+<form method="POST">
+
+<div class="row">
+
+<div class="col-md-8">
+<select name="service_type" class="form-select">
+<option value="">All Services</option>
+
+{% for service in services %}
+<option value="{{ service }}">{{ service | capitalize }}</option>
+{% endfor %}
+
+</select>
+</div>
+
+<div class="col-md-4">
+<button type="submit" class="btn btn-primary w-100">
+Search Workers
+</button>
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+<br>
+
+{% if workers %}
+
+<h3 class="mt-4">Available Workers</h3>
+
+<div class="row">
+
+{% for worker in workers %}
+
+<div class="col-md-4">
+
+<div class="worker-card shadow-sm mb-4">
+
+<!-- Name -->
+<h5 class="worker-name">
+    <a href="/worker_profile/{{ worker.id }}">
+        {{ worker.first_name }} {{ worker.last_name }}
+    </a>
+</h5>
+
+<!-- 🏷️ BADGES -->
+<div class="mb-2">
+
+{% if worker.badge == "ai_best" %}
+    <span class="badge bg-primary">🧠 Top Recommended</span>
+{% endif %}
+
+{% if worker.badge == "closest" %}
+    <span class="badge bg-success">📍 Closest</span>
+{% endif %}
+
+{% if worker.badge == "low" %}
+    <span class="badge bg-danger">⚠️ Low Rated</span>
+{% endif %}
+
+</div>
+
+<p><b>Service:</b> {{ worker.service }}</p>
+
+<!-- 📍 Distance -->
+<p class="distance">
+📍 {{ worker.distance | round(2) }} km away
+</p>
+
+<!-- ⭐ Rating -->
+<p>
+    <span class="rating-badge">
+        ⭐ {{ worker.rating }}
+    </span>
+    <small class="text-muted">
+        ({{ worker.review_count }} reviews)
+    </small>
+</p>
+
+<!-- 🔧 Works Done -->
+<p><b>Works Done:</b>
+<span class="badge bg-success">
+{{ worker.works_done }}
+</span>
+</p>
+
+<!-- Buttons -->
+<a href="/hire/{{ worker.id }}" class="btn btn-success btn-hire">
+Request Worker
+</a>
+
+<a href="/chat/{{ worker.id }}" class="btn btn-outline-primary btn-chat">
+Chat
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<p class="text-muted mt-4">No workers found.</p>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

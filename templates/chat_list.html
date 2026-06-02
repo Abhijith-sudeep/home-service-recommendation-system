@@ -1,0 +1,90 @@
+{% extends "base_user.html" %}
+
+{% block content %}
+
+<style>
+
+.chat-layout{
+    display:flex;
+    height:80vh;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* LEFT PANEL */
+.chat-list{
+    width:30%;
+    border-right:1px solid #eee;
+    overflow-y:auto;
+}
+
+.chat-user{
+    padding:15px;
+    border-bottom:1px solid #f1f1f1;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.chat-user:hover{
+    background:#f5f7fb;
+}
+
+.chat-user.active{
+    background:#e7f1ff;
+}
+
+.chat-user h6{
+    margin:0;
+    font-weight:600;
+}
+
+.chat-user small{
+    color:#777;
+}
+
+/* RIGHT PANEL */
+.chat-empty{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#888;
+    font-size:18px;
+}
+
+</style>
+
+<h3 class="mb-3">💬 Chats</h3>
+
+<div class="chat-layout">
+
+    <!-- LEFT: CHAT LIST -->
+    <div class="chat-list">
+
+        {% for u in users %}
+
+        <div class="chat-user" onclick="openChat({{ u.id }})">
+            <h6>{{ u.name }}</h6>
+            <small>{{ u.last_message if u.last_message else "No messages yet" }}</small>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- RIGHT: EMPTY -->
+    <div class="chat-empty">
+        Select a chat to start messaging
+    </div>
+
+</div>
+
+<script>
+function openChat(userId){
+    window.location.href = "/chat/" + userId;
+}
+</script>
+
+{% endblock %}

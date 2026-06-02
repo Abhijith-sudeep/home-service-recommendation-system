@@ -1,0 +1,158 @@
+{% extends "base_user.html" %}
+
+{% block content %}
+
+<style>
+
+body{
+    background:#eef2f7;
+    font-family:'Poppins',sans-serif;
+}
+
+/* Chat container */
+.chat-container{
+    max-width:700px;
+    margin:40px auto;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    overflow:hidden;
+}
+
+/* Header */
+.chat-header{
+    padding:20px;
+    color:white;
+    background:linear-gradient(90deg,#1d74f5,#19b6d2);
+}
+
+/* Chat body */
+.chat-body{
+    height:400px;
+    overflow-y:auto;
+    padding:20px;
+    background:#f7f9fc;
+}
+
+/* Message */
+.message{
+    padding:10px 15px;
+    margin-bottom:12px;
+    border-radius:20px;
+    max-width:70%;
+}
+
+/* User message (right) */
+.user-message{
+    background:#1d74f5;
+    color:white;
+    margin-left:auto;
+}
+
+/* Worker message (left) */
+.worker-message{
+    background:#e4e9f2;
+    color:black;
+}
+
+/* Time + ticks */
+.message-info{
+    font-size:11px;
+    margin-top:3px;
+    opacity:0.8;
+    text-align:right;
+}
+
+.worker-message .message-info{
+    text-align:left;
+}
+
+/* Input */
+.chat-input{
+    padding:15px;
+    background:#f2f4f7;
+    display:flex;
+    gap:10px;
+}
+
+.chat-input input{
+    flex:1;
+    border-radius:20px;
+    border:1px solid #ccc;
+    padding:10px 15px;
+}
+
+.chat-input button{
+    border-radius:20px;
+    padding:8px 18px;
+}
+
+</style>
+
+
+<div class="chat-container">
+
+<!-- HEADER -->
+<div class="chat-header">
+    <h5>{{ worker.first_name }} {{ worker.last_name }}</h5>
+    <small>{{ worker.service_type }}</small>
+</div>
+
+<!-- CHAT BODY -->
+<div class="chat-body" id="chat-body">
+
+{% for msg in messages %}
+
+    {% if msg.sender_type == "user" %}
+
+    <!-- User Message -->
+    <div class="message user-message">
+        {{ msg.content }}
+
+        <div class="message-info">
+            {{ msg.timestamp.strftime("%H:%M") }}
+
+            {% if msg.seen %}
+                ✔✔
+            {% else %}
+                ✔
+            {% endif %}
+        </div>
+    </div>
+
+    {% else %}
+
+    <!-- Worker Message -->
+    <div class="message worker-message">
+        {{ msg.content }}
+
+        <div class="message-info">
+            {{ msg.timestamp.strftime("%H:%M") }}
+        </div>
+    </div>
+
+    {% endif %}
+
+{% endfor %}
+
+</div>
+
+<!-- INPUT -->
+<form method="POST">
+
+<div class="chat-input">
+    <input type="text" name="message" placeholder="Type a message..." required>
+    <button class="btn btn-primary">Send</button>
+</div>
+
+</form>
+
+</div>
+
+<script>
+// Auto scroll to bottom
+let chatBody = document.getElementById("chat-body");
+chatBody.scrollTop = chatBody.scrollHeight;
+</script>
+
+{% endblock %}

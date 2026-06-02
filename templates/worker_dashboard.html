@@ -1,0 +1,200 @@
+{% extends "base_worker.html" %}
+
+{% block content %}
+
+<h2 class="mb-3">
+Welcome {{ worker.first_name }} {{ worker.last_name }} 👋
+</h2>
+
+<p class="text-muted">
+Manage your profile, work requests and customer chats.
+</p>
+
+
+<!-- PROFILE -->
+<div class="section-title mt-4 mb-3">
+Your Profile
+</div>
+
+<div class="card p-3 shadow-sm mb-4" style="border-radius:15px;">
+
+<p><b>Email:</b> {{ worker.email }}</p>
+<p><b>Service:</b> {{ worker.service_type }}</p>
+<p><b>Works Completed:</b> {{ worker.works_done }}</p>
+
+<a href="/edit_worker" class="btn btn-primary btn-sm">
+Edit Profile
+</a>
+
+</div>
+
+
+<!-- WORK REQUESTS -->
+<div class="section-title mb-3">
+Work Requests
+</div>
+
+{% if pending_jobs %}
+
+<div class="row">
+
+{% for item in pending_jobs %}
+
+<div class="col-md-4">
+
+<div class="card p-3 shadow-sm mb-3" style="border-radius:15px; transition:0.3s;">
+
+<h5>Customer: {{ item.user_name }}</h5>
+
+<p>
+Status:
+<span class="badge bg-warning text-dark">
+Pending
+</span>
+</p>
+
+<div class="d-grid gap-2">
+
+<a href="/accept_job/{{ item.job.id }}" class="btn btn-success btn-sm">
+Accept
+</a>
+
+<a href="/reject_job/{{ item.job.id }}" class="btn btn-danger btn-sm">
+Reject
+</a>
+
+<a href="/worker_chat/{{ item.job.user_id }}" class="btn btn-outline-primary btn-sm">
+Chat Customer
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<p class="text-muted">No work requests yet.</p>
+
+{% endif %}
+
+
+<!-- CURRENT JOBS -->
+<div class="section-title mt-4 mb-3">
+Your Current Jobs
+</div>
+
+{% if hired_jobs %}
+
+<div class="row">
+
+{% for item in hired_jobs %}
+
+<div class="col-md-4">
+
+<div class="card p-3 shadow-sm mb-3" style="border-radius:15px;">
+
+<h5>Customer: {{ item.user_name }}</h5>
+
+<p>
+Status:
+<span class="badge bg-success">
+{{ item.job.status }}
+</span>
+</p>
+
+<a href="/worker_chat/{{ item.job.user_id }}" class="btn btn-primary btn-sm w-100">
+Chat Customer
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<p class="text-muted">No active jobs.</p>
+
+{% endif %}
+
+
+<!-- REVIEWS -->
+<div class="section-title mt-4 mb-3">
+Customer Reviews
+</div>
+
+{% if reviews %}
+
+<div class="row">
+
+{% for review in reviews %}
+
+<div class="col-md-4">
+
+<div class="card p-3 shadow-sm mb-3" style="border-radius:15px;">
+
+<p><b>Rating:</b> ⭐ {{ review.rating }}/5</p>
+
+<p>{{ review.comment }}</p>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<p class="text-muted">No reviews yet.</p>
+
+{% endif %}
+
+
+<!-- CUSTOMER MESSAGES -->
+<div class="section-title mt-4 mb-3">
+Customer Messages
+</div>
+
+{% if users %}
+
+<div class="row">
+
+{% for user in users %}
+
+<div class="col-md-4">
+
+<div class="card p-3 shadow-sm mb-3" style="border-radius:15px;">
+
+<h5>{{ user.name }}</h5>
+<p>Customer Chat</p>
+
+<a href="/worker_chat/{{ user.id }}" class="btn btn-outline-primary btn-sm w-100">
+Open Chat
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<p class="text-muted">No messages yet.</p>
+
+{% endif %}
+
+{% endblock %}

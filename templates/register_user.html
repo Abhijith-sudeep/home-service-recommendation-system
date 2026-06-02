@@ -1,0 +1,219 @@
+{% extends "base_public.html" %}
+
+{% block content %}
+
+<style>
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Wrapper */
+.wrapper{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#0d6efd,#00c6ff);
+}
+
+/* Card */
+.register-box{
+    background: rgba(255,255,255,0.95);
+    padding:35px;
+    border-radius:20px;
+    width:420px;
+    backdrop-filter: blur(10px);
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    animation: floatBox 0.8s ease;
+}
+
+@keyframes floatBox{
+    from{
+        transform:translateY(40px);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+/* Inputs */
+.form-control{
+    border-radius:30px;
+    padding:12px;
+    margin-bottom:15px;
+    transition:0.3s;
+}
+
+.form-control:focus{
+    box-shadow:0 0 10px #0d6efd;
+    transform:scale(1.02);
+}
+
+/* Button */
+.btn-register{
+    width:100%;
+    border-radius:30px;
+    padding:12px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.btn-register:hover{
+    transform:scale(1.05);
+}
+
+/* Heading */
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    font-weight:600;
+}
+
+/* Map */
+#map{
+    height:220px;
+    border-radius:15px;
+    margin-bottom:8px;
+}
+
+.map-note{
+    font-size:12px;
+    color:#666;
+    margin-bottom:10px;
+}
+
+/* Alert spacing */
+.alert{
+    border-radius:10px;
+    font-size:14px;
+    padding:8px 12px;
+}
+</style>
+
+<div class="wrapper">
+
+<div class="register-box">
+
+    <h2>👤 Create Account</h2>
+
+    <!-- 🔥 FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" onsubmit="return validateLocation()">
+
+        <input type="text"
+               name="name"
+               class="form-control"
+               placeholder="Full Name"
+               required>
+
+        <input type="email"
+               name="email"
+               class="form-control"
+               placeholder="Email Address"
+               required>
+
+        <input type="password"
+               name="password"
+               class="form-control"
+               placeholder="Password"
+               required>
+
+        <!-- 🗺️ LOCATION -->
+        <label class="fw-semibold">📍 Select Your Location</label>
+        <div id="map"></div>
+
+        <div class="map-note">
+            Click on map or allow location access
+        </div>
+
+        <!-- Hidden -->
+        <input type="hidden" name="latitude" id="latitude">
+        <input type="hidden" name="longitude" id="longitude">
+
+        <button type="submit" class="btn btn-primary btn-register">
+            Register
+        </button>
+
+    </form>
+
+</div>
+</div>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Bootstrap JS (for alerts) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- 🧠 MAP SCRIPT -->
+<script>
+
+var map = L.map('map').setView([9.9312, 76.2673], 13);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+var marker;
+
+// Click selection
+map.on('click', function(e){
+    var lat = e.latlng.lat;
+    var lng = e.latlng.lng;
+
+    document.getElementById("latitude").value = lat;
+    document.getElementById("longitude").value = lng;
+
+    if(marker){
+        map.removeLayer(marker);
+    }
+
+    marker = L.marker([lat, lng]).addTo(map);
+});
+
+// Auto detect location
+if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position){
+
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+
+        map.setView([lat, lng], 15);
+
+        marker = L.marker([lat, lng]).addTo(map);
+
+        document.getElementById("latitude").value = lat;
+        document.getElementById("longitude").value = lng;
+
+    });
+}
+
+// 🔥 FORM VALIDATION
+function validateLocation(){
+    let lat = document.getElementById("latitude").value;
+    let lng = document.getElementById("longitude").value;
+
+    if(!lat || !lng){
+        alert("Please select your location on the map!");
+        return false;
+    }
+
+    return true;
+}
+
+</script>
+
+{% endblock %}

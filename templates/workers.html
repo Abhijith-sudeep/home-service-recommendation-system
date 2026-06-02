@@ -1,0 +1,7 @@
+{% for worker in workers %}
+    <p>
+        {{ worker.first_name }} {{ worker.last_name }} |
+        {{ worker.service_type }} |
+        Works Done: {{ worker.works_done }}
+    </p>
+{% endfor %}

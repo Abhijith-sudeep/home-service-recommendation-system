@@ -1,0 +1,152 @@
+{% extends "base_user.html" %}
+
+{% block content %}
+
+<!-- Icons (keep here if not in base) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    font-family:'Poppins',sans-serif;
+}
+
+/* Main wrapper */
+.review-wrapper{
+    padding:40px;
+}
+
+/* Card */
+.review-card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 15px 30px rgba(0,0,0,0.1);
+    animation:fadeIn 1s ease;
+    max-width:600px;
+    margin:auto;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* Stars */
+.stars{
+    display:flex;
+    gap:5px;
+    cursor:pointer;
+}
+
+.stars i{
+    font-size:22px;
+    color:#ccc;
+    transition:0.3s;
+}
+
+.stars i.active{
+    color:gold;
+}
+
+/* Button */
+.btn-submit{
+    border-radius:25px;
+    padding:10px 25px;
+    font-weight:600;
+}
+
+</style>
+
+
+<div class="review-wrapper">
+
+<h2 class="mb-4 text-center">
+    Review {{ worker.first_name }} {{ worker.last_name }}
+</h2>
+
+<div class="review-card">
+
+<form method="POST" action="/review/{{ worker.id }}">
+
+<!-- QUALITY -->
+<div class="mb-3">
+<label>Quality</label>
+<div class="stars" data-name="quality"></div>
+<input type="hidden" name="quality" required>
+</div>
+
+<!-- PUNCTUALITY -->
+<div class="mb-3">
+<label>Punctuality</label>
+<div class="stars" data-name="punctuality"></div>
+<input type="hidden" name="punctuality" required>
+</div>
+
+<!-- PROFESSIONALISM -->
+<div class="mb-3">
+<label>Professionalism</label>
+<div class="stars" data-name="professionalism"></div>
+<input type="hidden" name="professionalism" required>
+</div>
+
+<!-- RELIABILITY -->
+<div class="mb-3">
+<label>Reliability</label>
+<div class="stars" data-name="reliability"></div>
+<input type="hidden" name="reliability" required>
+</div>
+
+<!-- COMMENT -->
+<div class="mb-3">
+<label>Comment</label>
+<textarea name="comment" class="form-control" rows="3" placeholder="Write your experience..."></textarea>
+</div>
+
+<button class="btn btn-success btn-submit w-100">
+    Submit Review
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+
+<!-- ⭐ STAR SCRIPT -->
+<script>
+
+document.querySelectorAll(".stars").forEach(starBox => {
+
+    let name = starBox.dataset.name;
+
+    for(let i=1; i<=5; i++){
+
+        let star = document.createElement("i");
+        star.className = "fa fa-star";
+        star.dataset.value = i;
+
+        star.onclick = function(){
+
+            let value = this.dataset.value;
+
+            let allStars = starBox.querySelectorAll("i");
+
+            allStars.forEach(s => s.classList.remove("active"));
+
+            for(let j=0; j<value; j++){
+                allStars[j].classList.add("active");
+            }
+
+            document.querySelector(`input[name=${name}]`).value = value;
+        }
+
+        starBox.appendChild(star);
+    }
+
+});
+
+</script>
+
+{% endblock %}

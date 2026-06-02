@@ -1,0 +1,38 @@
+<h2>My Hired Workers</h2>
+
+{% if jobs %}
+    {% for job in jobs %}
+        <div style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc;">
+
+            <strong>{{ job.worker_name }}</strong><br>
+            Service: {{ job.service }}<br>
+            Status: {{ job.status }}<br><br>
+
+            <!-- If job is still hired -->
+            {% if job.status == "Hired" %}
+                <a href="/cancel_job/{{ job.job_id }}">Cancel</a>
+                |
+                <a href="/complete_job/{{ job.job_id }}">Mark as Completed</a>
+            {% endif %}
+
+            <!-- If job is completed -->
+            {% if job.status == "Completed" %}
+                <strong>Job Completed</strong><br><br>
+
+                <form method="POST" action="/review/{{ job.worker_id }}">
+                    <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required>
+                    <input type="text" name="comment" placeholder="Write review">
+                    <button type="submit">Submit Review</button>
+                </form>
+            {% endif %}
+
+            <!-- If job already reviewed -->
+            {% if job.status == "Reviewed" %}
+                <strong>Job Reviewed ✅</strong>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No jobs yet.</p>
+{% endif %}

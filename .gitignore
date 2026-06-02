@@ -8,5 +8,6 @@ database.db
 venv/
 
 .env
-
+*.pkl
+train.csv
 .vscode/
